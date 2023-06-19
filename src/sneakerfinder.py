@@ -15,12 +15,11 @@ class SneakerFinder:
     def driver_init(self):
         options = Options()
         options.add_argument("--incognito")
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
         # options.add_argument("--headless")
 
-        load_dotenv()
-        chromedriver_path = os.getenv("CHROMEDRIVER_PATH")
-        selenium_service = Service(chromedriver_path)
-        driver = webdriver.Chrome(service=selenium_service, options=options)
+        driver = webdriver.Chrome(options=options)
         return driver
 
     def find_stockx(self, name, size):
