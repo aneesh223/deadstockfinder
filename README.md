@@ -32,8 +32,8 @@ SneakerFinder is a Python program that helps you find and compare prices of snea
 
 ## Notes
 
-- The program collects prices for men's sizes from GOAT.com only.
-- Please note that the prices for some GOAT.com products may be a few dollars off the actual price.
+- The program only collects prices for men's sizes from GOAT.com.
+- The prices for some GOAT.com products may be a few dollars off the actual price.
 - The program retrieves the top 5 listings from each platform and sorts them by price.
 
 ## Contributing
