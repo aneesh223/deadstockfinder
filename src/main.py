@@ -3,11 +3,9 @@ from sneakerfinder import SneakerFinder
 
 def find_prices(name, size):
     finder = SneakerFinder()
-    stockx = finder.find_stockx(name, size)
-    goat = finder.find_goat(name, size)
-    ebay = finder.find_ebay(name, size)
     prices = []
 
+    stockx = finder.find_stockx(name, size)
     for sneaker in stockx:
         if sneaker['price'] is not None:
             prices.append({
@@ -16,7 +14,8 @@ def find_prices(name, size):
                 'url': sneaker['url'],
                 'platform': 'StockX'
             })
-
+    
+    goat = finder.find_goat(name, size)
     for sneaker in goat:
         if sneaker['price'] is not None:
             prices.append({
@@ -25,7 +24,8 @@ def find_prices(name, size):
                 'url': sneaker['url'],
                 'platform': 'GOAT'
             })
-
+    
+    ebay = finder.find_ebay(name, size)
     for sneaker in ebay:
         if sneaker['price'] is not None:
             prices.append({
