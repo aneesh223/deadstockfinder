@@ -52,12 +52,13 @@ class SneakerFinder:
                 driver.get(url)
                 driver.implicitly_wait(10)
 
-                price = driver.find_element(
-                    By.XPATH, "//p[contains(@class, 'css-1b8s8v')]")
+                price_element = driver.find_elements(By.XPATH, "//span[contains(@class, 'css-1ny2kle')]")
+                price_text = price_element[1].text.strip()
+                price = price_text.split('$')[1]
 
                 results.append({
                     'name': name,
-                    'price': float(price.text.strip()[1:].replace(",", "")),
+                    'price': float(price.replace(",", "")),
                     'url': url
                 })
 
