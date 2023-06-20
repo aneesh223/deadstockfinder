@@ -7,7 +7,6 @@ SneakerFinder is a Python program that helps you find and compare prices of snea
 - Python 3.x
 - Selenium
 - Requests
-- dotenv
 
 ## Installation
 
@@ -17,7 +16,6 @@ SneakerFinder is a Python program that helps you find and compare prices of snea
    ```bash
    pip install selenium requests dotenv
 3. Download the appropriate version of ChromeDriver that matches your Chrome browser version. You can find ChromeDriver downloads here: [ChromeDriver Downloads.](https://sites.google.com/chromium.org/driver/)
-4. Set the CHROMEDRIVER_PATH environment variable to the path of the ChromeDriver executable.
 
 ## Usage
 
@@ -32,8 +30,8 @@ SneakerFinder is a Python program that helps you find and compare prices of snea
 
 ## Notes
 
-- The program only collects prices for men's sizes from GOAT.com.
-- The prices for some GOAT.com products may be a few dollars off the actual price.
+- The program only collects prices for men's sizes from GOAT.
+- The prices for some GOAT products may be a few dollars off the actual price.
 - The program retrieves the top 5 listings from each platform and sorts them by price.
 
 ## Contributing
