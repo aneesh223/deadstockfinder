@@ -1,8 +1,8 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-import os
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import requests
 import json
 
@@ -74,15 +74,16 @@ class SneakerFinder:
         try:
             driver.get(url)
             driver.implicitly_wait(10)
+            wait = WebDriverWait(driver, 10)
             results = []
 
             for i in range(5):
-                name = driver.find_element(
-                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//div[@data-qa='grid_cell_product_name']")
-                price = driver.find_element(
-                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//div[@data-qa='grid_cell_product_price']")
-                url = driver.find_element(
-                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//a")
+                name = wait.until(EC.visibility_of_element_located((
+                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//div[@data-qa='grid_cell_product_name']")))
+                price = wait.until(EC.visibility_of_element_located((
+                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//div[@data-qa='grid_cell_product_price']")))
+                url = wait.until(EC.visibility_of_element_located((
+                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//a")))
 
                 results.append({
                     'name': name.text.strip(),
