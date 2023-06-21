@@ -29,7 +29,7 @@ deadstockfinder is a Python program that helps you find and compare prices of de
 
 ## Notes
 
-- The program only collects prices for mens sizes for now. Womens sizes wil be added soon.
+- The program only collects prices for US mens sizes for now. US womens sizes wil be added soon.
 - The program retrieves the top listings from each platform and sorts them by price.
 
 ## Contributing

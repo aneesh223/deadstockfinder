@@ -49,7 +49,7 @@ def find_prices(name, size):
         return f"Unable to find the prices for {name}."
 
 
-name = input("Enter the name of the sneaker (include Gender): ")
+name = input("Enter the name of the sneaker: ")
 size = input("Enter the size of the sneaker: ")
 result = find_prices(name, size)
 print(result)

@@ -52,7 +52,7 @@ class deadstockfinder:
                     'name': name_element.text.strip(),
                     'price': float(price_element.text.strip()[1:].replace(",", "")),
                     'url': url_element,
-                    'image': image_element.split(',')[0][:-4]
+                    'image': image_element.split(',')[0][:-3]
                 })
 
             return results
