@@ -1,6 +1,6 @@
 # SneakerFinder
 
-SneakerFinder is a Python program that helps you find and compare prices of sneakers across multiple online platforms. It utilizes web scraping with Selenium to retrieve data from popular sneaker marketplaces such as StockX, GOAT, and eBay. More sites will be added in the future.
+SneakerFinder is a Python program that helps you find and compare prices of sneakers across multiple online platforms. It utilizes web scraping with Selenium to retrieve data from popular sneaker marketplaces such as StockX, GOAT, Flight Club, and eBay. More sites will be added in the future.
 
 ## Requirements
 
@@ -25,7 +25,7 @@ SneakerFinder is a Python program that helps you find and compare prices of snea
    python main.py
 3. Enter the name of the sneaker (including gender) when prompted. ex. Mens Dunk Low Black Panda
 4. Enter the size of the sneaker when prompted. ex. 10.5
-5. The program will search for the given sneaker on StockX, GOAT, and eBay, and display the prices and links to the listings.
+5. The program will search for the given sneaker on StockX, GOAT, Flight Club, and eBay, and display the prices and links to the listings.
 
 ## Notes
 
