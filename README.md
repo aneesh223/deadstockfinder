@@ -29,8 +29,7 @@ deadstockfinder is a Python program that helps you find and compare prices of sn
 
 ## Notes
 
-- The program only collects prices for men's sizes for now.
-- The prices for some GOAT products may be a few dollars off the actual price.
+- The program only collects prices for mens sizes for now. Womens sizes wil be added soon.
 - The program retrieves the top listings from each platform and sorts them by price.
 
 ## Contributing
