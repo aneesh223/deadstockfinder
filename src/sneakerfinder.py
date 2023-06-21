@@ -20,34 +20,32 @@ class SneakerFinder:
         return driver
 
     def find_stockx(self, name, size):
+        size = size.replace(".", "-")
         url = f"https://stockx.com/search/sneakers/size-{size}?size_types=men&s={name}"
-    
+
         driver = self.driver_init()
-    
+
         try:
             driver.get(url)
             driver.implicitly_wait(10)
             wait = WebDriverWait(driver, 10)
             results = []
-    
-            name_elements = wait.until(EC.visibility_of_all_elements_located(
-                (By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']//p[@class='chakra-text css-3lpefb']")))
-            price_elements = wait.until(EC.visibility_of_all_elements_located(
-                (By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']//p[@class='chakra-text css-nsvdd9']")))
-            url_elements = wait.until(EC.visibility_of_all_elements_located(
-                (By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']//a")))
-    
-            for i in range(10):
-                name_element = name_elements[i]
-                price_element = price_elements[i]
-                url_element = url_elements[i]
-    
+
+            product_items = wait.until(EC.visibility_of_all_elements_located(
+                (By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']")
+            ))
+
+            for item in product_items:
+                name_element = item.find_element(By.XPATH, ".//p[@class='chakra-text css-3lpefb']")
+                price_element = item.find_element(By.XPATH, ".//p[@class='chakra-text css-nsvdd9']")
+                url_element = item.find_element(By.XPATH, ".//a").get_attribute("href")
+
                 results.append({
                     'name': name_element.text.strip(),
                     'price': float(price_element.text.strip()[1:].replace(",", "")),
-                    'url': url_element.get_attribute('href')
+                    'url': url_element
                 })
-    
+
             return results
         except:
             return results
@@ -63,18 +61,49 @@ class SneakerFinder:
             wait = WebDriverWait(driver, 10)
             results = []
 
-            for i in range(10):
-                name = wait.until(EC.visibility_of_element_located((
-                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//div[@data-qa='grid_cell_product_name']")))
-                price = wait.until(EC.visibility_of_element_located((
-                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//div[@data-qa='grid_cell_product_price']")))
-                url = wait.until(EC.visibility_of_element_located((
-                    By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//a")))
+            product_items = wait.until(EC.visibility_of_all_elements_located(
+                (By.XPATH, "//div[@data-qa='grid_cell_product']")
+            ))
+
+            for item in product_items:
+                name_element = item.find_element(By.XPATH, ".//div[@data-qa='grid_cell_product_name']")
+                price_element = item.find_element(By.XPATH, ".//div[@data-qa='grid_cell_product_price']")
+                url_element = item.find_element(By.XPATH, ".//a").get_attribute("href")
 
                 results.append({
-                    'name': name.text.strip(),
-                    'price': float(price.text.strip()[1:].replace(",", "")),
-                    'url': url.get_attribute('href')
+                    'name': name_element.text.strip(),
+                    'price': float(price_element.text.strip()[1:].replace(",", "")),
+                    'url': url_element
+                })
+
+            return results
+        except:
+            return results
+
+    def find_flightclub(self, name, size):
+        url = f"https://www.flightclub.com/catalogsearch/result?query={name}&size_men={size}"
+
+        driver = self.driver_init()
+
+        try:
+            driver.get(url)
+            driver.implicitly_wait(10)
+            wait = WebDriverWait(driver, 10)
+            results = []
+
+            product_items = wait.until(EC.visibility_of_all_elements_located(
+                (By.XPATH, "//a[@data-qa='ProductItemsUrl']")
+            ))
+
+            for item in product_items:
+                name_element = item.find_element(By.XPATH, ".//h2[@data-qa='ProductItemTitle']")
+                price_element = item.find_element(By.XPATH, ".//div[@data-qa='ProductItemPrice']")
+                url_element = item.get_attribute("href")
+
+                results.append({
+                    'name': name_element.text.strip(),
+                    'price': float(price_element.text.strip()[1:].replace(",", "")),
+                    'url': url_element
                 })
 
             return results

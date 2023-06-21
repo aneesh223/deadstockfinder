@@ -24,6 +24,16 @@ def find_prices(name, size):
                 'url': sneaker['url'],
                 'platform': 'GOAT'
             })
+
+    flightclub = finder.find_flightclub(name, size)
+    for sneaker in flightclub:
+        if sneaker['price'] is not None:
+            prices.append({
+                'name': sneaker['name'],
+                'price': sneaker['price'],
+                'url': sneaker['url'],
+                'platform': 'Flight Club'
+            })
     
     ebay = finder.find_ebay(name, size)
     for sneaker in ebay:
@@ -51,4 +61,4 @@ size = input("Enter the size of the sneaker: ")
 result = find_prices(name, size)
 print(result)
 print("\n")
-print("Please note that the prices for some GOAT.com products may be a few dollars off the actual price.\nThis program only collects mens sizes from GOAT.com for now.")
+print("Please note that the prices for some GOAT.com products may be a few dollars off the actual price.")
