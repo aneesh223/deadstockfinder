@@ -1,6 +1,6 @@
 # deadstockfinder
 
-deadstockfinder is a Python program that helps you find and compare prices of sneakers across multiple online platforms. It utilizes web scraping with Selenium to retrieve data from popular sneaker marketplaces such as StockX, GOAT, and Flight Club. More sites will be added in the future.
+deadstockfinder is a Python program that helps you find and compare prices of dead stock  sneakers across multiple online platforms. It utilizes web scraping with Selenium to retrieve data from popular sneaker marketplaces such as StockX, GOAT, and Flight Club. More sites will be added in the future.
 
 ## Requirements
 
