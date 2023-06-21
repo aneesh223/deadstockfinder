@@ -1,8 +1,8 @@
-from sneakerfinder import SneakerFinder
+from deadstockfinder import deadstockfinder
 
 
 def find_prices(name, size):
-    finder = SneakerFinder()
+    finder = deadstockfinder()
     prices = []
 
     stockx = finder.find_stockx(name, size)
@@ -12,9 +12,10 @@ def find_prices(name, size):
                 'name': sneaker['name'],
                 'price': sneaker['price'],
                 'url': sneaker['url'],
+                'img': sneaker['image'],
                 'platform': 'StockX'
             })
-    
+
     goat = finder.find_goat(name, size)
     for sneaker in goat:
         if sneaker['price'] is not None:
@@ -22,6 +23,7 @@ def find_prices(name, size):
                 'name': sneaker['name'],
                 'price': sneaker['price'],
                 'url': sneaker['url'],
+                'img': sneaker['image'],
                 'platform': 'GOAT'
             })
 
@@ -32,17 +34,8 @@ def find_prices(name, size):
                 'name': sneaker['name'],
                 'price': sneaker['price'],
                 'url': sneaker['url'],
+                'img': sneaker['image'],
                 'platform': 'Flight Club'
-            })
-    
-    ebay = finder.find_ebay(name, size)
-    for sneaker in ebay:
-        if sneaker['price'] is not None:
-            prices.append({
-                'name': sneaker['name'],
-                'price': sneaker['price'],
-                'url': sneaker['url'],
-                'platform': 'eBay'
             })
 
     sorted_prices = sorted(prices, key=lambda x: x['price'])
@@ -50,7 +43,7 @@ def find_prices(name, size):
     if sorted_prices:
         result = ''
         for price_info in sorted_prices:
-            result += f"\n{price_info['name']}, Size {size}: ${price_info['price']:.2f} on {price_info['platform']}. {price_info['url']}\n"
+            result += f"\n{price_info['name']}, Size {size}: ${price_info['price']:.2f} on {price_info['platform']}.\nLink: {price_info['url']}\nImage: {price_info['img']}\n"
         return result
     else:
         return f"Unable to find the prices for {name}."
