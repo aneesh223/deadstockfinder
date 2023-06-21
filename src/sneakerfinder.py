@@ -22,44 +22,28 @@ class SneakerFinder:
         return driver
 
     def find_stockx(self, name, size):
-        url = f'https://stockx.com/api/browse?_search={name}'
+        url = f"https://stockx.com/search/sneakers/size-{size}?size_types=men&s={name}"
 
-        headers = {
-            'accept': 'application/json',
-            'accept-encoding': 'utf-8',
-            'accept-language': 'en-US,en;q-0.9',
-            'referer': 'https://stockx.com',
-            'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"macOS"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-            'x-requested-with': 'XMLHttpRequest'
-        }
+        driver = self.driver_init()
 
-        html = requests.get(url=url, headers=headers)
-        output = json.loads(html.text)
-        results = []
         try:
-            for product in output['Products'][:5]:
-                name = product['title']
-                urlKey = product['urlKey']
-                url = f"https://stockx.com/buy/{urlKey}?size={size}"
+            driver.get(url)
+            driver.implicitly_wait(10)
+            wait = WebDriverWait(driver, 10)
+            results = []
 
-                driver = self.driver_init()
-                driver.get(url)
-                driver.implicitly_wait(10)
-
-                price_element = driver.find_elements(By.XPATH, "//span[contains(@class, 'css-1ny2kle')]")
-                price_text = price_element[1].text.strip()
-                price = price_text.split('$')[1]
+            for i in range(10):
+                name = driver.find_elements(
+                    By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']//p[@class='chakra-text css-3lpefb']")[i]
+                price = driver.find_elements(
+                    By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']//p[@class='chakra-text css-nsvdd9']")[i]
+                url = driver.find_elements(
+                    By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']//a")[i]
 
                 results.append({
-                    'name': name,
-                    'price': float(price.replace(",", "")),
-                    'url': url
+                    'name': name.text.strip(),
+                    'price': float(price.text.strip()[1:].replace(",", "")),
+                    'url': url.get_attribute('href')
                 })
 
             return results
@@ -77,7 +61,7 @@ class SneakerFinder:
             wait = WebDriverWait(driver, 10)
             results = []
 
-            for i in range(5):
+            for i in range(10):
                 name = wait.until(EC.visibility_of_element_located((
                     By.XPATH, f"//div[@data-qa='grid_cell_product' and @data-grid-cell-position='{i+1}']//div[@data-qa='grid_cell_product_name']")))
                 price = wait.until(EC.visibility_of_element_located((
@@ -92,9 +76,8 @@ class SneakerFinder:
                 })
 
             return results
-
         except:
-            return []
+            return results
 
     def find_ebay(self, name, size):
         url = f"https://www.ebay.com/sch/i.html?_nkw={name}%20size%20{size}"
