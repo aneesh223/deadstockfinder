@@ -31,7 +31,7 @@ SneakerFinder is a Python program that helps you find and compare prices of snea
 
 - The program only collects prices for men's sizes for now.
 - The prices for some GOAT products may be a few dollars off the actual price.
-- The program retrieves the top 5 listings from each platform and sorts them by price.
+- The program retrieves the top listings from each platform and sorts them by price.
 
 ## Contributing
 Contributions to the SneakerFinder project are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
