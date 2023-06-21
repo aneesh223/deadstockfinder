@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class SneakerFinder:
+class deadstockfinder:
     def __init__(self):
         pass
 
@@ -27,23 +27,32 @@ class SneakerFinder:
 
         try:
             driver.get(url)
-            driver.implicitly_wait(10)
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);")
+            driver.implicitly_wait(1000)
             wait = WebDriverWait(driver, 10)
             results = []
 
             product_items = wait.until(EC.visibility_of_all_elements_located(
-                (By.XPATH, "//div[@class='css-111hzm2-GridProductTileContainer']")
+                (By.XPATH,
+                 "//div[@class='css-111hzm2-GridProductTileContainer']")
             ))
 
             for item in product_items:
-                name_element = item.find_element(By.XPATH, ".//p[@class='chakra-text css-3lpefb']")
-                price_element = item.find_element(By.XPATH, ".//p[@class='chakra-text css-nsvdd9']")
-                url_element = item.find_element(By.XPATH, ".//a").get_attribute("href")
+                name_element = item.find_element(
+                    By.XPATH, ".//p[@class='chakra-text css-3lpefb']")
+                price_element = item.find_element(
+                    By.XPATH, ".//p[@class='chakra-text css-nsvdd9']")
+                url_element = item.find_element(
+                    By.XPATH, ".//a").get_attribute("href")
+                image_element = item.find_element(
+                    By.XPATH, ".//img").get_attribute("srcset")
 
                 results.append({
                     'name': name_element.text.strip(),
                     'price': float(price_element.text.strip()[1:].replace(",", "")),
-                    'url': url_element
+                    'url': url_element,
+                    'image': image_element.split(',')[0][:-4]
                 })
 
             return results
@@ -57,7 +66,9 @@ class SneakerFinder:
 
         try:
             driver.get(url)
-            driver.implicitly_wait(10)
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);")
+            driver.implicitly_wait(1000)
             wait = WebDriverWait(driver, 10)
             results = []
 
@@ -66,14 +77,20 @@ class SneakerFinder:
             ))
 
             for item in product_items:
-                name_element = item.find_element(By.XPATH, ".//div[@data-qa='grid_cell_product_name']")
-                price_element = item.find_element(By.XPATH, ".//div[@data-qa='grid_cell_product_price']")
-                url_element = item.find_element(By.XPATH, ".//a").get_attribute("href")
+                name_element = item.find_element(
+                    By.XPATH, ".//div[@data-qa='grid_cell_product_name']")
+                price_element = item.find_element(
+                    By.XPATH, ".//div[@data-qa='grid_cell_product_price']")
+                url_element = item.find_element(
+                    By.XPATH, ".//a").get_attribute("href")
+                image_element = item.find_element(
+                    By.XPATH, ".//img").get_attribute("src")
 
                 results.append({
                     'name': name_element.text.strip(),
                     'price': float(price_element.text.strip()[1:].replace(",", "")),
-                    'url': url_element
+                    'url': url_element,
+                    'image': image_element
                 })
 
             return results
@@ -87,7 +104,9 @@ class SneakerFinder:
 
         try:
             driver.get(url)
-            driver.implicitly_wait(10)
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);")
+            driver.implicitly_wait(1000)
             wait = WebDriverWait(driver, 10)
             results = []
 
@@ -96,47 +115,19 @@ class SneakerFinder:
             ))
 
             for item in product_items:
-                name_element = item.find_element(By.XPATH, ".//h2[@data-qa='ProductItemTitle']")
-                price_element = item.find_element(By.XPATH, ".//div[@data-qa='ProductItemPrice']")
+                name_element = item.find_element(
+                    By.XPATH, ".//h2[@data-qa='ProductItemTitle']")
+                price_element = item.find_element(
+                    By.XPATH, ".//div[@data-qa='ProductItemPrice']")
                 url_element = item.get_attribute("href")
+                image_element = item.find_element(
+                    By.XPATH, ".//img").get_attribute("src")
 
                 results.append({
                     'name': name_element.text.strip(),
                     'price': float(price_element.text.strip()[1:].replace(",", "")),
-                    'url': url_element
-                })
-
-            return results
-        except:
-            return results
-
-    def find_ebay(self, name, size):
-        url = f"https://www.ebay.com/sch/i.html?_nkw={name}%20size%20{size}"
-
-        driver = self.driver_init()
-
-        driver.get(url)
-        urls = []
-
-        for i in range(5):
-            element = driver.find_element(
-                By.XPATH, f"//li[contains(@data-gr2, '{i+1}')]/div/div/a[@data-interactions]")
-            urls.append(element.get_attribute("href"))
-
-        results = []
-
-        try:
-            for url in urls:
-                driver.get(url)
-
-                name = driver.find_element(
-                    By.XPATH, f"//h1[contains(@class, 'x-item-title__mainTitle')]/span[@class]")
-                price = driver.find_element(
-                    By.XPATH, f"//span[contains(@itemprop, 'price')]/span[@class]")
-                results.append({
-                    'name': name.text.strip(),
-                    'price': float(price.text.strip()[4:].replace(",", "")),
-                    'url': url
+                    'url': url_element,
+                    'image': image_element
                 })
 
             return results
