@@ -19,7 +19,7 @@ class deadstockfinder:
         driver = webdriver.Chrome(options=options)
         return driver
 
-    def find_stockx(self, name, size):
+    def stockx(self, name, size):
         size = size.replace(".", "-")
         url = f"https://stockx.com/search/sneakers/size-{size}?size_types=men&s={name}"
 
@@ -59,7 +59,7 @@ class deadstockfinder:
         except:
             return results
 
-    def find_goat(self, name, size):
+    def goat(self, name, size):
         url = f"https://www.goat.com/search?query={name}&size_converted=us_sneakers_men_{size}"
 
         driver = self.driver_init()
@@ -97,7 +97,7 @@ class deadstockfinder:
         except:
             return results
 
-    def find_flightclub(self, name, size):
+    def flightclub(self, name, size):
         url = f"https://www.flightclub.com/catalogsearch/result?query={name}&size_men={size}"
 
         driver = self.driver_init()
@@ -133,3 +133,49 @@ class deadstockfinder:
             return results
         except:
             return results
+    
+    def search(self, name, size):
+        prices = []
+
+        stockx = self.stockx(name, size)
+        for sneaker in stockx:
+            if sneaker['price'] is not None:
+                prices.append({
+                    'name': sneaker['name'],
+                    'price': sneaker['price'],
+                    'url': sneaker['url'],
+                    'img': sneaker['image'],
+                    'platform': 'StockX'
+                })
+
+        goat = self.goat(name, size)
+        for sneaker in goat:
+            if sneaker['price'] is not None:
+                prices.append({
+                    'name': sneaker['name'],
+                    'price': sneaker['price'],
+                    'url': sneaker['url'],
+                    'img': sneaker['image'],
+                    'platform': 'GOAT'
+                })
+
+        flightclub = self.flightclub(name, size)
+        for sneaker in flightclub:
+            if sneaker['price'] is not None:
+                prices.append({
+                    'name': sneaker['name'],
+                    'price': sneaker['price'],
+                    'url': sneaker['url'],
+                    'img': sneaker['image'],
+                    'platform': 'Flight Club'
+                })
+
+        sorted_prices = sorted(prices, key=lambda x: x['price'])
+
+        if sorted_prices:
+            result = ''
+            for price_info in sorted_prices:
+                result += f"\n{price_info['name']}, Size {size}: ${price_info['price']:.2f} on {price_info['platform']}.\nLink: {price_info['url']}\nImage: {price_info['img']}\n"
+            return result
+        else:
+            return f"Unable to find the prices for {name}."
