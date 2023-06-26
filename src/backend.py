@@ -30,7 +30,7 @@ class deadstockfinder:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
             driver.implicitly_wait(1000)
-            wait = WebDriverWait(driver, 10)
+            wait = WebDriverWait(driver, 100)
             results = []
 
             product_items = wait.until(EC.visibility_of_all_elements_located(
@@ -52,7 +52,7 @@ class deadstockfinder:
                     'name': name_element.text.strip(),
                     'price': float(price_element.text.strip()[1:].replace(",", "")),
                     'url': url_element,
-                    'image': image_element.split(',')[0][:-3]
+                    'image': image_element.split(',')[0][:-3].replace("w=140&h=75", "w=750")
                 })
 
             return results
@@ -69,7 +69,7 @@ class deadstockfinder:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
             driver.implicitly_wait(1000)
-            wait = WebDriverWait(driver, 10)
+            wait = WebDriverWait(driver, 100)
             results = []
 
             product_items = wait.until(EC.visibility_of_all_elements_located(
@@ -107,7 +107,7 @@ class deadstockfinder:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
             driver.implicitly_wait(1000)
-            wait = WebDriverWait(driver, 10)
+            wait = WebDriverWait(driver, 100)
             results = []
 
             product_items = wait.until(EC.visibility_of_all_elements_located(
@@ -133,7 +133,7 @@ class deadstockfinder:
             return results
         except:
             return results
-    
+
     def search(self, name, size):
         prices = []
 
@@ -175,7 +175,12 @@ class deadstockfinder:
         if sorted_prices:
             result = ''
             for price_info in sorted_prices:
-                result += f"\n{price_info['name']}, Size {size}: ${price_info['price']:.2f} on {price_info['platform']}.\nLink: {price_info['url']}\nImage: {price_info['img']}\n"
+                result += f"\n{price_info['name']}, Size {size}: ${price_info['price']:.2f} on {price_info['platform']}."
+                if "https://" in price_info['url']:
+                    result += f"\nLink: {price_info['url']}"
+                if "https://" in price_info['img']:
+                    result += f"\nImage: {price_info['img']}"
+                result += "\n"
             return result
         else:
-            return f"Unable to find the prices for {name}."
+            return f"Unable to find prices for: {name}."
