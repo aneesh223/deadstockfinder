@@ -1,0 +1,19 @@
+<html>
+<body>
+    <h1>Deadstock Finder</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Enter the name of the sneaker:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="size">Enter the size of the sneaker:</label>
+        <input type="text" id="size" name="size" required><br><br>
+        <input type="submit" value="Search">
+    </form>
+
+    {% if result %}
+        <h2>Results:</h2>
+        <p>Please note that the prices for some Flight Club products may be a few dollars off the actual price, as their website isn't updated consistently.</p>
+        {{ result|safe }}
+    {% endif %}
+</body>
+</html>

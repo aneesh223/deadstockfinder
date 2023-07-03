@@ -1,4 +1,4 @@
-from backend import deadstockfinder
+from .backend import deadstockfinder
 
 finder = deadstockfinder()
 
